@@ -20,4 +20,4 @@ export default function (req, res, next) {
   } else {
     res.sendStatus(HttpStatus.UNAUTHORIZED);
   }
-};
+}

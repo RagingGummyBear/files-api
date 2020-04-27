@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -11,8 +11,9 @@ const UserSchema = new Schema({
 UserSchema.post('save', function(err, doc, next) {
   next((err.code === 11000)
     ? new Error('Fields are not unique')
-    : error);
+    : err);
 });
 
 // Export the model
-module.exports = mongoose.model('User', UserSchema);
+export default mongoose.model('User', UserSchema);
+// module.exports = mongoose.model('User', UserSchema);

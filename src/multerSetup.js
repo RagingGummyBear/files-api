@@ -4,8 +4,8 @@ const fs = require('fs');
 // Define Multer storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const category = (req.body.uploadCategory) ? "/" + req.body.uploadCategory : "/uncategorized";
-    const categoryDestination = (req.body.uploadDestination) ? "/" + req.body.uploadDestination : "";
+    const category = (req.body.uploadCategory) ? '/' + req.body.uploadCategory : '/uncategorized';
+    const categoryDestination = (req.body.uploadDestination) ? '/' + req.body.uploadDestination : '';
     const path = `${global.appRoot}/uploads${category}${categoryDestination}`;
 
     if (!fs.existsSync(path)) {
@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 
 const fileFilter = (req, file, cb) => {
   // cb = callback
-  cb(null, true)
+  cb(null, true);
 };
 
 const limits = {

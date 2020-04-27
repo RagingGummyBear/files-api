@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 
 import User from '@db/models/user.model';
+import { userDTOMapper } from '@helpers/mappers/userMapper';
 
 export const createUser = async (email, password, uuid, role) => {
   if (await User.findOne({ email })) {
@@ -18,19 +19,20 @@ export const createUser = async (email, password, uuid, role) => {
   user.password = await bcrypt.hash(password, salt);
 
   const savedUser = await user.save();
-  return savedUser;
+  return userDTOMapper(savedUser);
 };
 
 export const loginUser = async (email, password) => {
   const user = await User.findOne({ email });
   if (user && bcrypt.compareSync(password, user.password)) {
-    return user;
+    return userDTOMapper(user);
   }
   throw new Error('Bad login credentials');
 };
 
 export const readUsers = async () => {
-  return User.find();
+  const users = await User.find();
+  return userDTOMapper(users);
 };
 
 export default {

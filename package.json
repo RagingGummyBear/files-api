@@ -4,7 +4,7 @@
   "description": "",
   "main": "start.js",
   "scripts": {
-    "start": "nodemon --watch . --exec babel-node -- start",
+    "start": "nodemon --watch . -- start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -20,14 +20,6 @@
     "@db": "./src/db"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.8.7",
-    "@std/esm": "^0.26.0",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-register": "^6.26.0",
-    "babel-watch": "^7.0.0",
     "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -38,7 +30,6 @@
     "cors": "^2.8.5",
     "coveralls": "^3.0.13",
     "dotenv": "^8.2.0",
-    "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "esm": "^3.2.25",
@@ -63,5 +54,8 @@
     "supertest": "^4.0.2",
     "swagger-ui-express": "^4.1.4",
     "uuid": "^7.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
   }
 }

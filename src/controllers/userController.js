@@ -5,6 +5,7 @@ import HttpStatus from 'http-status-codes';
 import UserService from '@services/userService';
 import { userRoles } from '@helpers/userRoles';
 import { generateJwtToken } from '@helpers/generateJwtToken';
+import { userResponseMapper } from '@helpers/mappers/userMapper';
 
 export const createUser = async (req, res) => {
   const { email, password } = req.body;
@@ -13,9 +14,7 @@ export const createUser = async (req, res) => {
     const accessToken = generateJwtToken(user);
     return res.status(HttpStatus.OK).send({
       accessToken,
-      email,
-      uuid: user.uuid,
-      role: user.role,
+      ...userResponseMapper(user),
     });
   }
   catch (err) {
@@ -31,9 +30,7 @@ export const loginUser = async (req, res) => {
     const accessToken = generateJwtToken(user);
     return res.status(HttpStatus.OK).send({
       accessToken,
-      email,
-      uuid: user.uuid,
-      role: user.role,
+      ...userResponseMapper(user),
     });
   } catch (err) {
     const { message } = err;
@@ -44,5 +41,5 @@ export const loginUser = async (req, res) => {
 // This is for debuging only
 export const readUsers = async (req, res) => {
   const users = await UserService.readUsers();
-  return res.status(HttpStatus.OK).send(users);
+  return res.status(HttpStatus.OK).send(userResponseMapper(users));
 };
