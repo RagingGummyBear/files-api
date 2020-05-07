@@ -5,7 +5,7 @@ export const jwtSecret = (process.env.JWT_SECRET)
   : 'default_jwt_secret_woop_woop';
 
 export const generateJwtToken = (user) => (
-  jwt.sign({ username: user.uuid,  role: user.role }, jwtSecret, { expiresIn: '20m' })
+  jwt.sign({ username: user.username, uuid: user.uuid,  role: user.role }, jwtSecret, { expiresIn: '20m' })
 );
 
 export default {
