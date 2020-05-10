@@ -3,13 +3,14 @@ import bcrypt from 'bcryptjs';
 import User from '@db/models/user.model';
 import { userDTOMapper } from '@helpers/mappers/userMapper';
 
-export const createUser = async (email, password, uuid, role) => {
+export const createUser = async (email, username, password, uuid, role) => {
   if (await User.findOne({ email })) {
     throw new Error('Email taken');
   }
 
   const user = new User({
     email,
+    username,
     password,
     uuid,
     role,

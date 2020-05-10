@@ -7,9 +7,9 @@ import { generateJwtToken } from '@helpers/generateJwtToken';
 import { userResponseMapper } from '@helpers/mappers/userMapper';
 
 export const createUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, username, password } = req.body;
   try {
-    const user = await UserService.createUser(email, password, uuidv4(), userRoles.basic);
+    const user = await UserService.createUser(email, username, password, uuidv4(), userRoles.basic);
     const accessToken = generateJwtToken(user);
     return res.status(HttpStatus.OK).send({
       accessToken,

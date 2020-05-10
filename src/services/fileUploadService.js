@@ -1,5 +1,5 @@
 import FileUpload from '@db/models/fileUpload.model';
-import { fileUploadDTOMapper } from '@helpers/mappers/fileUploadDTOMapper';
+import { fileUploadDTOMapper } from '@helpers/mappers/fileUploadMapper';
 
 export const createFileUpload = async ({
   uuid,
@@ -118,4 +118,12 @@ export const findFileUploads = async ({ name, type, category, uploadedBy, upload
   const fileUploads = FileUpload.find(queryObject);
 
   return fileUploadDTOMapper(fileUploads);
+}
+
+export default {
+  createFileUpload,
+  findUploadFileByUuid,
+  updateFileUpload,
+  deleteFileUpload,
+  findFileUploads,
 }

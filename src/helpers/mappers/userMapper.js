@@ -2,14 +2,16 @@ export const userDTOMapper = (object) => {
   if (Array.isArray(object)) {
     return object.map(obj => userDTOMapper(obj));
   }
-  return { uuid, username, email, role } = object;
+  const { uuid, username, email, role } = object;
+  return { uuid, username, email, role };
 };
 
 export const userResponseMapper = (object) => {
   if (Array.isArray(object)) {
     return object.map(obj => userResponseMapper(obj));
   }
-  return { username, email, role } = object;
+  const { username, email, role } = object;
+  return { username, email, role };
 };
 
 export default {

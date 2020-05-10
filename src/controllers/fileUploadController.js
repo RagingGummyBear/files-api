@@ -1,6 +1,6 @@
 import HttpStatus from 'http-status-codes';
 
-import FileUploadService from '@services/FileUploadService';
+import FileUploadService from '@services/fileUploadService';
 import { fileUploadResponseMapper } from '@helpers/mappers/fileUploadMapper';
 
 export const createFileUpload = async (req, res) => {
