@@ -9,6 +9,21 @@ services:
       - 27017:27017
     volumes:
       - mongodb_data_container:/data/db
+  api:
+    image: iamhi/files-api:latest
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./
+    environment:
+      MONGO_USERNAME: root
+      MONGO_PASSWORD: rootpassword
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongodb_container
+    volumes:
+      - /app/node_modules
+      - ./:/app
 
 volumes:
   mongodb_data_container:

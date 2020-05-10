@@ -5,7 +5,7 @@ const password = encodeURIComponent('rootpassword');
 const authMechanism = 'DEFAULT';
 
 // Connection URL
-const url = `mongodb://${user}:${password}@localhost:27017/?authMechanism=${authMechanism}`;
+const url = `mongodb://${user}:${password}@mongodb_container:27017/?authMechanism=${authMechanism}`;
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, dbName: 'files-api' }).then(() => {
   console.warn('Connection to mongoDB successful');

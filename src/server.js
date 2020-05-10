@@ -9,6 +9,9 @@ import compression from 'compression';
 import helmet from 'helmet';
 
 import usersRoute from '@routes/userRoute';
+import fileUploadRoute from '@routes/fileUploadRoute';
+
+// import './fileSaveTest';
 
 const app = express();
 // const http = require('http').Server(app); // too lazy to remove this require
@@ -31,7 +34,7 @@ app.get('/', function(req, res) {
 });
 
 app.use('/api/v1', usersRoute);
-
+app.use('/api/v1', fileUploadRoute);
 
 // import upload from './multerSetup';
 // app.post('/upload', upload.single('fileUpload'), function (req, res, next) {
