@@ -4,7 +4,7 @@ import FileUploadService from '@services/fileUploadService';
 import { fileUploadResponseMapper } from '@helpers/mappers/fileUploadMapper';
 
 export const createFileUpload = async (req, res) => {
-  const { uuid, uploadDestination } = req.fileUpload;
+  const { fileName: uuid, uploadDestination, extension } = req.fileUpload;
   const { name, type, description, category } = req.body;
   const { username } = req.user;
   try {
@@ -12,7 +12,7 @@ export const createFileUpload = async (req, res) => {
       {
         uuid,
         name,
-        type,
+        type: extension,
         description,
         category,
         uploadDestination,

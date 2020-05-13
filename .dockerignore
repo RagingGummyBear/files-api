@@ -9,5 +9,5 @@ dist
 .build
 .dist
 
-uploads
+# uploads
 *.md

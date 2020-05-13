@@ -1,25 +1,52 @@
 import fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';
 import mime from 'mime';
 
-export const saveBase64File = (data, path, name) => {
+export const saveBase64File = async (data, name, path, extension) => {
   const matches = data.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-  const fileType = (matches) ? matches[1] : 'file';
-  console.warn(matches);
-  const buff = Buffer.from(data, 'base64');
-  const fullPath = `${global.appRoot}/${(path) ? path : 'uploads'}/${name}.${fileType}`;
-  fs.mkdirSync(`${global.appRoot}/${(path) ? path : 'uploads'}/`, { recursive: true });
+  const fileType = (matches.length === 3) ? mime.getExtension(matches[1]) : 'file';
+  const saveExtension = (extension) ? extension : fileType;
 
-  fs.writeFileSync(`${fullPath}`, buff);
+  const saveData = Buffer.from((matches.length === 3) ? matches[2] : data, 'base64');
+
+  let savePath = `${global.appRoot}/uploads/`;
+  savePath += (path) ? `${path}/` : '';
+  try {
+    fs.accessSync(savePath, fs.constants.R_OK);
+  } catch (err) {
+    fs.mkdirSync(savePath, { recursive: true });
+  }
+  const fileName = (name) ? `${name}` : uuidv4();
+  savePath += fileName;
+  savePath += `.${saveExtension}`;
+
+  fs.writeFileSync(`${savePath}`, saveData, { encoding: 'base64' });
+
+  return {
+    fileName,
+    uploadDestination: savePath,
+    extension: saveExtension,
+  }
 };
 
-export const readBase64File = async (file) => {
-  if (file === undefined) {
+export const readBase64File = async (name, path, extension) => {
+  if (name === undefined) {
     throw new Error('FileService#readBase64File: Bad argument');
   }
 
-  fs.accessSync(`${global.appRoot}/${file}`, fs.constants.R_OK);
+  let readPath = `${global.appRoot}/uploads/`;
+    readPath += (path) ? `${path}/` : '';
+  if (extension !== undefined) {
+    readPath += `${name}.${extension}`;
+  } else {
+    const files = fs.readdirSync(`${readPath}`);
+    const foundFile = files.filter(file => file.includes(name))[0];
+    readPath += foundFile;
+  }
 
-  const buff = await fs.readFileSync(`${global.appRoot}/${file}`);
+  fs.accessSync(`${readPath}`, fs.constants.R_OK);
+
+  const buff = await fs.readFileSync(`${readPath}`);
   return buff.toString('base64');
 };
 

@@ -11,8 +11,6 @@ import helmet from 'helmet';
 import usersRoute from '@routes/userRoute';
 import fileUploadRoute from '@routes/fileUploadRoute';
 
-// import './fileSaveTest';
-
 const app = express();
 // const http = require('http').Server(app); // too lazy to remove this require
 
@@ -26,7 +24,7 @@ app.use(cors({
   // allowedHeaders: ["Content-Type", "Authorization"]
 }));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50mb' }));
 
 //ROUTES WILL GO HERE
 app.get('/', function(req, res) {
