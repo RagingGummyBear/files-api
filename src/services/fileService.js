@@ -29,6 +29,7 @@ export const saveBase64File = async (data, name, path, extension) => {
   }
 };
 
+
 export const readBase64File = async (name, path, extension) => {
   if (name === undefined) {
     throw new Error('FileService#readBase64File: Bad argument');
@@ -50,7 +51,15 @@ export const readBase64File = async (name, path, extension) => {
   return buff.toString('base64');
 };
 
+export const readBase64FileFullPath = async (fullPath) => {
+  fs.accessSync(`${fullPath}`, fs.constants.R_OK);
+
+  const buff = await fs.readFileSync(`${fullPath}`);
+  return buff.toString('base64');
+};
+
 export default {
   saveBase64File,
   readBase64File,
+  readBase64FileFullPath,
 };

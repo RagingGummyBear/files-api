@@ -1,6 +1,7 @@
 import HttpStatus from 'http-status-codes';
 
 import FileUploadService from '@services/fileUploadService';
+import FileService from '@services/fileService';
 import { fileUploadResponseMapper } from '@helpers/mappers/fileUploadMapper';
 
 export const createFileUpload = async (req, res) => {
@@ -85,7 +86,7 @@ export const readFileUpload = async (req, res) => {
   const { fileUploadUuid } = req.params;
   const { username } = req.user;
   try {
-    const fileUpload = await FileUploadService.findUploadFileByUuid({ username, uuid: fileUploadUuid });
+    const fileUpload = await FileUploadService.findUploadFileByUuid({ uuid: fileUploadUuid });
     return res.status(HttpStatus.OK).send(fileUploadResponseMapper(fileUpload));
   }
   catch (err) {
@@ -94,5 +95,18 @@ export const readFileUpload = async (req, res) => {
       return res.status(HttpStatus.NOT_FOUND).send({ message: `File upload not found`, uuid });
     }
     return res.status(HttpStatus.BAD_REQUEST).send({ message });
+  }
+};
+
+export const downloadFile = async (req, res) => {
+  const { fileUploadUuid } = req.params;
+  const { downloadType } = req.query;
+  const uploadFile = await FileUploadService.findUploadFileByUuid({ uuid: fileUploadUuid });
+  switch (downloadType) {
+    case 'base64':
+      uploadFile.data = await FileService.readBase64FileFullPath(uploadFile.uploadDestination);
+      return res.status(HttpStatus.OK).send(uploadFile);
+    default:
+      return res.download(uploadFile.uploadDestination, `${uploadFile.name}.${uploadFile.type}`);
   }
 };

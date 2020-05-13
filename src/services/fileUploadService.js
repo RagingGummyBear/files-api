@@ -27,8 +27,7 @@ export const createFileUpload = async ({
 };
 
 const _findUploadFileByUuid = async ({ uuid }) => {
-  const fileUpload = FileUpload.findOne({ uuid });
-
+  const fileUpload = await FileUpload.findOne({ uuid });
   if (!fileUpload) {
     const error = new Error('Upload not found');
     error.errorCode = 404;
@@ -39,7 +38,7 @@ const _findUploadFileByUuid = async ({ uuid }) => {
 };
 
 export const findUploadFileByUuid = async ({ uuid }) => {
-  return fileUploadDTOMapper(_findUploadFileByUuid({ uuid }));
+  return fileUploadDTOMapper(await _findUploadFileByUuid({ uuid }));
 };
 
 export const updateFileUpload = async ({
