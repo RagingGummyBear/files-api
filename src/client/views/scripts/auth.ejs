@@ -63,6 +63,7 @@
     // send to backend request to refresh access token
     console.warn('Not yet implemented on the backed, but it clears the tokens from the client');
     localStorage.setItem('userData', JSON.stringify({ }));
+    location.reload();
   };
 
   const getAuthorizationString = () => {

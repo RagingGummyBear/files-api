@@ -21,4 +21,9 @@ router.get('/search_file', (req, res, next) => {
   });
 });
 
+router.post('/file_upload_table', (req, res, next) => {
+  const { fileUploadData } = req.body;
+  res.render('partials/file_upload_table', { fileUploadData });
+});
+
 export default router;

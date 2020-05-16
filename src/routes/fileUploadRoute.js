@@ -6,7 +6,7 @@ import { singleBase64FileUpload } from '@middlewares/base64FileUpload';
 
 const router = express.Router();
 
-router.post('/file-upload/', [authenticateJWT, singleBase64FileUpload('imageData')], createFileUpload);
+router.post('/file-upload/', [authenticateJWT, singleBase64FileUpload('fileData')], createFileUpload);
 router.get('/file-upload/', [authenticateJWT], readFileUploads);
 router.get('/file-upload/:fileUploadUuid', [authenticateJWT], readFileUpload);
 router.delete('/file-upload/:fileUploadUuid', [authenticateJWT], deleteFileUpload);

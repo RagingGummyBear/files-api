@@ -13,12 +13,38 @@
             <h2>Search file</h2>
             <br />
             <div class="jumbotron">
-                <h1>This is great</h1>
-                <p>Welcome to templating using EJS</p>
+              <div id="UploadDataTableContainer">
+              </div>
             </div>
         </main>
         <footer>
             <%- include('../partials/footer') %>
         </footer>
     </body>
+
+  <script type="text/javascript">
+    const refreshTableData = async () => {
+      readUploadFiles().then(async (fileUploadData) => {
+        const response = await fetch('/client/file_upload_table', {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ fileUploadData }),
+        });
+
+        const htmlData = await response.text();
+        $("#UploadDataTableContainer").html(htmlData);
+      });
+    };
+
+    const downloadFileWithUuid = (uuid, filename) => {
+      fileDownloadCall(uuid, filename);
+    };
+
+    $(document).ready(() => {
+      refreshTableData();
+    });
+  </script>
 </html>

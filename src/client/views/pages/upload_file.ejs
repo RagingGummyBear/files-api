@@ -49,6 +49,10 @@
   let fileName = '';
   let fileExtension = '';
 
+  const clearInputData = () => {
+    $('#fileUploadForm').trigger('reset');
+  };
+
   reader.addEventListener("load", () => {
     fileBase64Data = reader.result;
 
@@ -70,7 +74,6 @@
     event.preventDefault();
 
     if (selectedFile && !readingFile) {
-      console.warn({ fileBase64Data });
       const inputFileName = $("#inputFileName").val();
       const inputFileDescription = $("#inputFileDescription").val();
       const inputFileCategory = $("#inputFileCategory").val();
@@ -79,10 +82,19 @@
         type: fileExtension,
         description: inputFileDescription,
         category: inputFileCategory,
-        imageData: fileBase64Data,
+        fileData: fileBase64Data,
       };
 
-      fileUploadCall(uploadData).then(data => console.warn(data));
+      fileUploadCall(uploadData).then(result => {
+        if (result.error) {
+          userRefreshCall();
+        }
+        clearInputData();
+      });
     }
+  });
+
+  $(document).ready(() => {
+    clearInputData();
   });
 </script>

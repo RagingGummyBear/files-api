@@ -114,8 +114,7 @@ export const findFileUploads = async ({ name, type, category, uploadedBy, upload
     queryObject.uploadedOn = uploadedOn;
   }
 
-  const fileUploads = FileUpload.find(queryObject);
-
+  const fileUploads = await FileUpload.find(queryObject);
   return fileUploadDTOMapper(fileUploads);
 }
 

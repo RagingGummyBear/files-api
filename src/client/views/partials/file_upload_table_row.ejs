@@ -1,0 +1,10 @@
+<tr>
+  <th scope="row">1</th>
+  <td><%= name %></td>
+  <td><%= category %></td>
+  <td><%= type %></td>
+  <td><%= uploadedBy %></td>
+  <td><%= uploadedOn %></td>
+  <td><%= description %></td>
+  <td><button type="button" name="downloadFile" class="btn btn-light" onClick="downloadFileWithUuid('<%= uuid %>', '<%= name %>.<%= type %>')">Download</button></td>
+</tr>

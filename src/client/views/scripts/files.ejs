@@ -1,6 +1,5 @@
 <script type="text/javascript">
   const fileUploadCall = async (bodyData) => {
-    console.warn('HI!');
     const response = await fetch('/api/v1/file-upload', {
       method: 'POST',
       mode: 'cors',
@@ -12,8 +11,68 @@
       body: JSON.stringify(bodyData)
     });
 
-    const data = await response.json();
-    return data;
+    const { status } = response;
+    if (status === 401) {
+      return { error: true, code: 401 };
+    }
+    return await response.json();
+  };
+
+  const readUploadFiles = async (queryString) => {
+    const response = await fetch(`/api/v1/file-upload`, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': getAuthorizationString(),
+      },
+    });
+
+    const { status } = response;
+    if (status === 401) {
+      return { error: true, code: 401 };
+    }
+
+    return await response.json();
+  };
+
+  const fileDownloadCall = async (uploadFileUuid, filename, type) => {
+    // TODO: THIS NEEDS TO BE FINISHED
+    const response = await fetch(`/api/v1/file-upload/${uploadFileUuid}/download${(type) ? `?downloadType=${type}` : ''}`, {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': getAuthorizationString(),
+      },
+    });
+
+    const { status } = response;
+    if (status === 401) {
+      return { error: true, code: 401 };
+    }
+
+    if (status == 403) {
+      return { error: true, code: 403 };
+    }
+
+    const blob = await response.blob();
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    // the filename you want
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+
+    return response;
+    // const data = await response;
+    // return data;
   }
 
 </script>

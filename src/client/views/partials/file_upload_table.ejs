@@ -1,0 +1,19 @@
+<table class="table table-bordered table-dark">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Category</th>
+      <th scope="col">Type</th>
+      <th scope="col">UploadedBy</th>
+      <th scope="col">UploadedOn</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% fileUploadData.forEach(rowData => { %>
+     <%- include('./file_upload_table_row', rowData) %>
+    <% }) %>
+  </tbody>
+</table>
