@@ -1,0 +1,76 @@
+<script type="text/javascript">
+  const userData = localStorage.getItem('userData');
+  const userCache = (userData) ? JSON.parse(userData) : {};
+
+  if (userCache.accessToken) {
+    userCache.logged = true;
+  } else {
+    userCache.logged = false;
+  }
+
+  // Server calls
+  const userCreateCall = async (data) => {
+    fetch('/api/v1/auth/signup', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+      const { errors } = data;
+      if (errors) {
+        console.error(errors);
+        return;
+      }
+
+      localStoraguserse.setItem('userData', JSON.stringify(data));
+      location.reload();
+    });
+  }
+
+  const userLoginCall = async (data) => {
+    fetch('/api/v1/auth/login', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+      const { errors } = data;
+      if (errors) {
+        console.error(errors);
+        return;
+      }
+
+      localStorage.setItem('userData', JSON.stringify(data));
+      location.reload();
+    });
+  };
+
+  const userLogoutCall = () => {
+    // Requrest to remove refreshToken
+    alert('Not yet implemented on the backed, but it clears the tokens from the client');
+    localStorage.setItem('userData', JSON.stringify({ }));
+  };
+
+  const userRefreshCall = () => {
+    // send to backend request to refresh access token
+    console.warn('Not yet implemented on the backed, but it clears the tokens from the client');
+    localStorage.setItem('userData', JSON.stringify({ }));
+  };
+
+  const getAuthorizationString = () => {
+    if (userCache.logged) {
+      const { accessToken } = userCache;
+      return `Bearer ${accessToken}`;
+    }
+    return '';
+  }
+
+</script>

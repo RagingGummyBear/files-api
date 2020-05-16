@@ -1,0 +1,19 @@
+<script type="text/javascript">
+  const fileUploadCall = async (bodyData) => {
+    console.warn('HI!');
+    const response = await fetch('/api/v1/file-upload', {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': getAuthorizationString(),
+      },
+      body: JSON.stringify(bodyData)
+    });
+
+    const data = await response.json();
+    return data;
+  }
+
+</script>

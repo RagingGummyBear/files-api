@@ -1,0 +1,88 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+</head>
+    <body class="container">
+        <header>
+            <%- include('../partials/header') %>
+        </header>
+        <main>
+            <h2>Upload file</h2>
+            <br />
+            <div class="jumbotron">
+              <form id="fileUploadForm">
+                <div class="form-group">
+                  <label for="inputFileName">File name</label>
+                  <input type="text" class="form-control" id="inputFileName" placeholder="File name">
+                </div>
+                <div class="form-group">
+                  <label for="inputFileDescription">File description</label>
+                  <textarea class="form-control" id="inputFileDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="inputFileCategory">File category</label>
+                  <input type="text" class="form-control" id="inputFileCategory">
+                  <small id="fileCategoryHelp" class="form-text text-muted">This is the subfolder where files will be saved</small>
+                </div>
+                <div class="form-group">
+                  <label for="fileUpload">Example file input</label>
+                  <input type="file" class="form-control-file" id="fileUpload">
+                </div>
+                <button id="fileUploadSubmitButton" type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+        </main>
+        <footer>
+            <%- include('../partials/footer') %>
+        </footer>
+    </body>
+</html>
+
+<script type="text/javascript">
+  const reader = new FileReader();
+  let selectedFile = false;
+  let readingFile = false;
+  let fileBase64Data = '';
+  let fileName = '';
+  let fileExtension = '';
+
+  reader.addEventListener("load", () => {
+    fileBase64Data = reader.result;
+
+    readingFile = false;
+    selectedFile = true;
+  }, false);
+
+  $("#fileUpload").change((event) => {
+    const file = event.target.files[0];
+    const nameAndExtension = event.target.files[0].name.split('.');
+    fileName = nameAndExtension[0];
+    fileExtension = nameAndExtension[1];
+    selectedFile = false;
+    readingFile = true;
+    reader.readAsDataURL(file);
+  });
+
+  $("#fileUploadSubmitButton").click((event) => {
+    event.preventDefault();
+
+    if (selectedFile && !readingFile) {
+      console.warn({ fileBase64Data });
+      const inputFileName = $("#inputFileName").val();
+      const inputFileDescription = $("#inputFileDescription").val();
+      const inputFileCategory = $("#inputFileCategory").val();
+      const uploadData = {
+        name: (inputFileName) ? inputFileName : fileName,
+        type: fileExtension,
+        description: inputFileDescription,
+        category: inputFileCategory,
+        imageData: fileBase64Data,
+      };
+
+      fileUploadCall(uploadData).then(data => console.warn(data));
+    }
+  });
+</script>

@@ -1,0 +1,31 @@
+<!-- views/partials/header.ejs -->
+
+<script type="text/javascript">
+  let logged = true;
+</script>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/client">Files-api client</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item <%if (header === 'Home') { %> active <% } %>" >
+        <a class="nav-link" href="/client">Home<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item <%if (header === 'UploadFile') { %> active <% } %>">
+        <a class="nav-link" href="/client/upload_file">Upload file</a>
+      </li>
+      <li class="nav-item <%if (header === 'SearchFile') { %> active <% } %>">
+        <a class="nav-link" href="/client/search_file">Search for file</a>
+      </li>
+    </ul>
+    <span class="navbar-text">
+      <%- include('../partials/logout_user_button') %>
+      <%- include('../partials/login_user_modal') %>
+      <%- include('../partials/create_user_modal') %>
+    </span>
+  </div>
+</nav>
+<br />

@@ -1,0 +1,55 @@
+<!-- Button trigger modal -->
+<button id="createUserButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createUserModal">
+  Create user
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="createUserModal" tabindex="-1" role="dialog" aria-labelledby="createUserModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Login</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <small id="emailHelp" class="form-text text-muted">Email:</small>
+            <input type="email" class="form-control" id="createInputEmail" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <small id="usernameHelp" class="form-text text-muted">Username:</small>
+            <input type="username" class="form-control" id="createInputUsername" placeholder="User">
+          </div>
+          <div class="form-group">
+            <small id="passwordHelp" class="form-text text-muted">Password:</small>
+            <input type="password" class="form-control" id="createInputPassword" placeholder="Password">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="createButton">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  if (userCache.logged > Date.now()) {
+    $("#createUserButton").hide();
+  } else {
+    $("#createUserButton").show();
+  }
+
+  // test out if the user is logged and hide the button
+  $('#createButton').click(() => {
+    const email = $('#createInputEmail').val();
+    const password = $('#createInputPassword').val();
+    const username = $('#createInputUsername').val();
+    console.log({ email, password, username });
+    userCreateCall({ email, password, username });
+  });
+</script>
